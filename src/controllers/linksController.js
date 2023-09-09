@@ -13,7 +13,12 @@ const buscar = async (req, res) => {
 const buscarPeloCode = async (req, res) => {
   try {
     const resposta = await linksServices.buscarPeloCode(req.params.code)
-    res.send(resposta);
+
+    if (resposta) {
+      res.send(resposta);
+    } else {
+      res.sendStatus(404);
+    }
   } catch (error) {
     res.status(500).send({ error: error.message });
   }

@@ -1,3 +1,6 @@
+
+require("dotenv").config();
+
 const express = require("express");
 
 const linksRoute = require("./routes/linksRoute");
@@ -9,5 +12,5 @@ app.use(express.json());
 app.use(linksRoute)
 
 app.listen(8080, () => {
-    console.log("Estou loico!");
+    console.log("Sucesso :)");
 });

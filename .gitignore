@@ -4,4 +4,5 @@ node_modules/
 # Arquivo package-lock.json
 package-lock.json
 
-
+# Variáveis de ambiente
+.env

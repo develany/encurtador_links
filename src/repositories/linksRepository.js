@@ -1,11 +1,11 @@
 const { Pool } = require("pg");
 
 const config = {
-  host: "ep-wandering-fog-44752516.us-east-2.aws.neon.tech",
-  port: "5432",
-  user: "develany",
-  password: "F42nvrdAHzqK",
-  database: "links",
+  host: process.env.DB_CONFIG_HOST,
+  port: process.env.DB_CONFIG_PORT,
+  user: process.env.DB_CONFIG_USER,
+  password: process.env.DB_CONFIG_PASSWORD,
+  database: process.env.DB_CONFIG_DATABASE,
   ssl: true,
 };
 
@@ -14,20 +14,16 @@ const pool = new Pool(config);
 
 const buscar = async () => {
   const resposta = await pool.query("select * from link");
-  console.log(resposta.rows);
   return resposta.rows;
 };
 
 const buscarPeloCode = async (code) => {
-  const resposta = await pool.query(`SELECT * FROM link WHERE code = '${code}'`);
-  const link = resposta.rows[0];
 
-  if (link) {
-    await pool.query(`UPDATE link SET hits = hits + 1 WHERE code = '${code}'`);
-    link.hits = parseInt(link.hits) + 1;
-  }
+  await pool.query(`update link set hits = hits + 1 where code = '${code}'`);
 
-  return link;
+  const respostaAtualizada = await pool.query(`select * from link where code = '${code}'`);
+
+  return respostaAtualizada.rows[0];
 };
 
 
